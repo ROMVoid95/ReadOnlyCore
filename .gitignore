@@ -1,5 +1,10 @@
 .gradle
 /build/
+/bin/
+/run/
+/eclipse/
+.classpath
+*.launch
 
 # Ignore Gradle GUI config
 gradle-app.setting
