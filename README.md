@@ -1,3 +1,5 @@
+[![](http://cf.way2muchnoise.eu/versions/readonly-core.svg)](https://www.curseforge.com/minecraft/mc-mods/readonly-core)
+
 <p>CoreLibrary for my "probably never to be released" mods, also features some other useful features for others to use in their mods as a dependency.</p>
 <h3><span style="text-decoration: underline;"><strong>CoreFeatures</strong></span></h3>
 <ul>
