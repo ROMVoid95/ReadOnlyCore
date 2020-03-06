@@ -22,6 +22,7 @@ public class ReadOnlyCore implements IMod{
 	public static final String MODID = "readonlycore";
 	public static final String NAME = "ReadOnly Core";
 	public static final String VERSION = "${version}";
+	public static final int BUILD_NUM = 0;
 	public static final String DEPENDENCIES = "";
 	public static final String ACCEPTED_MC_VERSIONS = "[1.12.2]";
 	public static final String ACCEPTED_MC_VERSION = ForgeVersion.mcVersion;
@@ -71,6 +72,6 @@ public class ReadOnlyCore implements IMod{
 
 	@Override
 	public int getBuildNum() {
-		return 0;
+		return BUILD_NUM;
 	}
 }
