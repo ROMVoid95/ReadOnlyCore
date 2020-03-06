@@ -545,5 +545,6 @@ task gitChangelog(type: GitChangelogTask) {
     description = 'creates a Changelog for Git'
     file = new File('CHANGELOG.md')
     fromRepo = file(".");
+
     templateContent = file('changelog.mustache').getText('UTF-8')
 }
