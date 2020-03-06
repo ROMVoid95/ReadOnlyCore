@@ -74,7 +74,7 @@ public class AstroBuilder {
 	 * @param biome              the biome
 	 * @return the planet
 	 */
-	public Planet registerPlanet(SolarSystem system, String name, float[] rbgarray,
+	public Planet registerPlanet(SolarSystem system, String name,
 			Class<? extends WorldProvider> provider, int dimID, int tier, float phase, float size,
 			float distancefromcenter, float relativetime, Biome... biome) {
 		Planet body = (new Planet(name)).setParentSolarSystem(system);
@@ -110,7 +110,7 @@ public class AstroBuilder {
 	 * @param biome              the biome
 	 * @return the moon
 	 */
-	public Moon registerMoon(Planet parent, String name, Class<? extends WorldProvider> provider, float[] rbgarray,
+	public Moon registerMoon(Planet parent, String name, Class<? extends WorldProvider> provider,
 			int dimID, int tier, float phase, float size, float distancefromcenter, float relativetime,
 			Biome... biome) {
 		Moon body = (new Moon(name)).setParentPlanet(parent);
@@ -145,7 +145,7 @@ public class AstroBuilder {
 	 * @param relativetime       the relativetime
 	 * @return the satellite
 	 */
-	public Satellite registerSatellite(Planet parent, Class<? extends WorldProvider> provider, int dimID, float[] rbgarray,
+	public Satellite registerSatellite(Planet parent, Class<? extends WorldProvider> provider, int dimID,
 			int dimIDStatic, float phase, float size, float distancefromcenter, float relativetime, boolean customStationIcon, @Nullable String bodyIcon) {
 		Satellite body = new Satellite("spacestation." + parent.getUnlocalizedName().replace("planet.", ""));
 		body.setParentBody(parent);
