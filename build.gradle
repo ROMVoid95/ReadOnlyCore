@@ -20,78 +20,14 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.spotbugs' version '1.6.2'
     id 'com.matthewprenger.cursegradle' version '1.2.0'
     id 'maven-publish'
-    id 'jacoco'
-    id 'checkstyle'
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'se.bjurr.gitchangelog.git-changelog-gradle-plugin'
 
-project.afterEvaluate {
-    jacoco {
-        toolVersion = '0.8.2'
-    }
-    project.task(type: JacocoReport, 'junitPlatformJacocoReport',
-            {
-                sourceDirectories = files('./src/main')
-                classDirectories = files("${project.buildDir}/classes/main")
-            })
-}
-
-spotbugs {
-    ignoreFailures = true
-    toolVersion = '3.1.6'
-    effort = 'max'
-    reportLevel = 'low'
-    //includeFilter = file("$rootProject.projectDir/config/spotbugs-filter.xml")
-}
-
-import com.github.spotbugs.SpotBugsTask
 import groovy.json.JsonSlurper
-
-tasks.withType(SpotBugsTask) {
-    reports {
-        xml.enabled = false
-        html.enabled = true
-    }
-}
-
-checkstyle {
-    ignoreFailures = true
-    toolVersion = '8.12'
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.compilerArgs = [
-            '-Xlint:deprecation', // deprecation, rawtypes, cast, unchecked, all
-            // '-Xdiags:verbose',
-            // '-Werror'
-    ]
-}
-
-tasks.withType(Test) {
-    compileTestJava.options.compilerArgs += '-proc:none'
-}
-
-javadoc {
-    failOnError = false
-}
-
-test {
-    useJUnitPlatform()
-    /*
-     useJUnitPlatform {
-         includeTags 'fast', 'smoke & feature-a'
-         //excludeTags 'slow', 'ci'
-         //includeEngines 'junit-jupiter'
-         //excludeEngines 'junit-vintage'
-   }
-   */
-}
 
 eclipse.project {
     buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
@@ -150,16 +86,7 @@ repositories {
 }
 
 dependencies {
-    testCompile('org.junit.platform:junit-platform-launcher:1.2.+')
-    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.+') // testImplementation
-    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.+') //testRuntimeOnly
-    testCompileOnly 'junit:junit:4.12'
-    testRuntime 'org.junit.vintage:junit-vintage-engine:5.2.+' //testRuntimeOnly
-    testCompile('org.mockito:mockito-core:2.+')
-    testCompile('org.mockito:mockito-junit-jupiter:2.+') {
-        exclude group: 'org.junit.jupiter', module: 'junit-jupiter-engine'
-    }
-    annotationProcessor group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
+
  	compile files (
  	"lib/Galacticraft-API-1.12.2-${gcversion}.jar",	
 	"lib/GalacticraftCore-Dev-1.12.2-${gcversion}.jar",
@@ -176,7 +103,7 @@ minecraft {
     mappings = "snapshot_20171003"
     
     if (project.hasProperty('signSHA1') && getBooleanProperty('do_sign_jar')) {
-        replace '@FINGERPRINT@', project.findProperty('signSHA1')
+        replace '@FINGERPRINT@', secret.signSHA1
     } else {
         replace '@FINGERPRINT@', ''
     }
