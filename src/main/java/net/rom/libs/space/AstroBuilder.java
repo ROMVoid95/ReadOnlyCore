@@ -25,15 +25,12 @@ public class AstroBuilder {
 	
 	private float[] rbgarray = new float[3];
 
-	public AstroBuilder() {
-	}
 
 	/**
 	 * Instantiates a new astro builder.
 	 */
 	public AstroBuilder(String modId) {
 		this.setModId(modId);
-		new AstroBuilder();
 	}
 
 

@@ -470,7 +470,7 @@ boolean getBooleanProperty(final String property) {
 task gitChangelog(type: GitChangelogTask) {
     group = 'GithubChangeLog'
     description = 'creates a Changelog for Git'
-    file = new File('CHANGELOG.md')
+    file = new File('C:\\Users\\AJ\\git\\MODS\\ReadOnlyCore\\CHANGELOG.md')
     fromRepo = file(".");
 
     templateContent = file('changelog.mustache').getText('UTF-8')
