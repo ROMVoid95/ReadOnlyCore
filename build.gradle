@@ -1,3 +1,8 @@
+def mcVersion = "1.12.2"
+def versionMajor = 1
+def versionMinor = 0
+def versionRev = 0
+
 buildscript {
     repositories {
         jcenter()
@@ -10,7 +15,11 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven-publish'
 
-version = "0.0.1"
+def versionBuild = 0
+if (System.getenv("BUILD_NUMBER") != null)
+    versionBuild = System.getenv("BUILD_NUMBER")
+
+version = "${mcVersion}-${versionMajor}.${versionMinor}.${versionRev}.${versionBuild}"
 group = "net.rom.libs" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ReadOnlyCore"
 
