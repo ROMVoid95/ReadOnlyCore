@@ -1,5 +1,7 @@
 package net.rom.libs.space;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nullable;
 
 import micdoodle8.mods.galacticraft.api.GalacticraftRegistry;
@@ -21,9 +23,9 @@ import net.minecraft.world.biome.Biome;
 
 public class AstroBuilder {
 	
-	private String modId;
+	private static String modId;
 	
-	private float[] rbgarray = new float[3];
+	private static float[] rbgarray = new float[3];
 
 
 	/**
@@ -35,7 +37,7 @@ public class AstroBuilder {
 
 
 	/**
-	 * Register solar system.
+	 * builds solar system.
 	 *
 	 * @param name     the name
 	 * @param galaxy   the galaxy
@@ -44,7 +46,7 @@ public class AstroBuilder {
 	 * @param size     the size
 	 * @return the solar system
 	 */
-	public SolarSystem registerSolarSystem( String name, String galaxy, Vector3 pos, String starname,
+	public static SolarSystem buildSolarSystem( String name, String galaxy, Vector3 pos, String starname,
 			float size) {
 		SolarSystem body = new SolarSystem(name, galaxy);
 		body.setMapPosition(pos);
@@ -53,13 +55,13 @@ public class AstroBuilder {
 		main.setTierRequired(-1);
 		main.setRelativeSize(size);
 		main.setBodyIcon(
-				new ResourceLocation(getModId(), "textures/gui/celestialbodies/" + name + "/" + starname + ".png"));
+				new ResourceLocation(getModId(), "textures/celestialbodies/" + name + "/" + starname + ".png"));
 		body.setMainStar(main);
 		return body;
 	}
 
 	/**
-	 * Register planet.
+	 * builds planet.
 	 *
 	 * @param system             the system
 	 * @param name               the name
@@ -74,28 +76,29 @@ public class AstroBuilder {
 	 * @param biome              the biome
 	 * @return the planet
 	 */
-	public Planet registerPlanet(SolarSystem system, String name,
+	public static Planet buildPlanet(SolarSystem system, String name,
 			Class<? extends WorldProvider> provider, int dimID, int tier, float phase, float size,
-			float distancefromcenter, float relativetime, Biome... biome) {
+			float distancefromcenter, float relativetime, ArrayList<Biome> biome) {
 		Planet body = (new Planet(name)).setParentSolarSystem(system);
-		String path = system.getUnlocalizedName().replace("solarsystem.", "");
 		body.setRingColorRGB(rbgarray[0], rbgarray[1], rbgarray[2]);
 		body.setPhaseShift(phase);
 		body.setRelativeSize(size);
 		body.setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(distancefromcenter, distancefromcenter));
 		body.setRelativeOrbitTime(relativetime);
-		body.setBodyIcon(new ResourceLocation(getModId(), "textures/gui/celestialbodies/" + path + "/" + name + ".png"));
+		body.setBodyIcon(new ResourceLocation(getModId(), "textures/celestialbodies/" + name + ".png"));
 		if (provider != null) {
 			body.setTierRequired(tier);
 			body.setDimensionInfo(dimID, provider);
 			if (biome != null)
-				body.setBiomeInfo(biome);
+				for(Biome b : biome) {
+					body.setBiomeInfo(b);
+				}
 		}
 		return body;
 	}
 
 	/**
-	 * Register moon.
+	 * builds moon.
 	 *
 	 * @param parent             the parent
 	 * @param name               the name
@@ -110,29 +113,30 @@ public class AstroBuilder {
 	 * @param biome              the biome
 	 * @return the moon
 	 */
-	public Moon registerMoon(Planet parent, String name, Class<? extends WorldProvider> provider,
+	public static Moon buildMoon(Planet parent, String name, Class<? extends WorldProvider> provider,
 			int dimID, int tier, float phase, float size, float distancefromcenter, float relativetime,
-			Biome... biome) {
+			ArrayList<Biome> biome) {
 		Moon body = (new Moon(name)).setParentPlanet(parent);
-		String path = parent.getParentSolarSystem().getUnlocalizedName().replace("solarsystem.", "");
 		body.setRingColorRGB(rbgarray[0], rbgarray[1], rbgarray[2]);
 		body.setPhaseShift(phase);
 		body.setRelativeSize(size);
 		body.setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(distancefromcenter, distancefromcenter));
 		body.setRelativeOrbitTime(relativetime);
 		body.setBodyIcon(
-				new ResourceLocation(getModId(), "textures/gui/celestialbodies/" + path + "/moons/" + name + ".png"));
+				new ResourceLocation(getModId(), "textures/celestialbodies/moons/" + name + ".png"));
 		if (provider != null) {
 			body.setTierRequired(tier);
 			body.setDimensionInfo(dimID, provider);
 			if (biome != null)
-				body.setBiomeInfo(biome);
+				for(Biome b : biome) {
+					body.setBiomeInfo(b);
+				}
 		}
 		return body;
 	}
 
 	/**
-	 * Register satellite.
+	 * builds SpaceStation.
 	 *
 	 * @param parent             the parent
 	 * @param prefix             the prefix
@@ -145,7 +149,7 @@ public class AstroBuilder {
 	 * @param relativetime       the relativetime
 	 * @return the satellite
 	 */
-	public Satellite registerSatellite(Planet parent, Class<? extends WorldProvider> provider, int dimID,
+	public static Satellite buildSpaceStation(Planet parent, Class<? extends WorldProvider> provider, int dimID,
 			int dimIDStatic, float phase, float size, float distancefromcenter, float relativetime, boolean customStationIcon, @Nullable String bodyIcon) {
 		Satellite body = new Satellite("spacestation." + parent.getUnlocalizedName().replace("planet.", ""));
 		body.setParentBody(parent);
@@ -154,7 +158,7 @@ public class AstroBuilder {
 		body.setRelativeSize(size);
 		body.setRingColorRGB(rbgarray[0], rbgarray[1], rbgarray[2]);
 		if(customStationIcon) {
-			body.setBodyIcon(new ResourceLocation(getModId(), "textures/gui/celestialbodies/"+ bodyIcon +".png"));
+			body.setBodyIcon(new ResourceLocation(getModId(), "textures/celestialbodies/spacestations/"+ bodyIcon +".png"));
 		} else {
 			body.setBodyIcon(new ResourceLocation("galacticraftcore:textures/gui/celestialbodies/space_station.png"));
 		}
@@ -164,6 +168,20 @@ public class AstroBuilder {
 			body.setBiomeInfo(new Biome[] { BiomeOrbit.space });
 		}
 		return body;
+	}
+	
+	/**
+	 * Builds unreachable planet.
+	 *
+	 * @param planetName the planet name
+	 * @param solarSystem the solar system
+	 * @return the planet
+	 */
+	public static Planet buildUnreachablePlanet(String planetName, SolarSystem solarSystem) {
+		Planet unreachable = new Planet(planetName).setParentSolarSystem(solarSystem);
+		unreachable.setBodyIcon(new ResourceLocation(getModId(), "textures/gui/celestialbodies/" + planetName + ".png"));
+		GalaxyRegistry.registerPlanet(unreachable);
+		return unreachable;
 	}
 
 	/**
@@ -184,7 +202,7 @@ public class AstroBuilder {
 	 * @param celestial the celestial
 	 * @param gasList   the gas list
 	 */
-	public void setAtmosphereComponentList(CelestialBody celestial, EnumAtmosphericGas... gasList) {
+	public static void setAtmosphereComponentList(CelestialBody celestial, EnumAtmosphericGas... gasList) {
 		for (EnumAtmosphericGas gas : gasList) {
 			celestial.atmosphereComponent(gas);
 		}
@@ -201,7 +219,7 @@ public class AstroBuilder {
 	 * @param windLevel           the wind level
 	 * @param density             the density
 	 */
-	public void setAtmosphere(CelestialBody celestial, Boolean breathable, boolean precipitation, boolean corrosive,
+	public static void setAtmosphere(CelestialBody celestial, Boolean breathable, boolean precipitation, boolean corrosive,
 			float relativeTemperature, float windLevel, float density) {
 		celestial.setAtmosphere(
 				new AtmosphereInfo(breathable, precipitation, corrosive, relativeTemperature, windLevel, density));
@@ -213,7 +231,7 @@ public class AstroBuilder {
 	 * @param celestial the celestial
 	 * @param keys      the keys
 	 */
-	public void setChecklistKeys(CelestialBody celestial, String... keys) {
+	public static void setChecklistKeys(CelestialBody celestial, String... keys) {
 		celestial.addChecklistKeys(keys);
 	}
 
@@ -222,7 +240,7 @@ public class AstroBuilder {
 	 *
 	 * @param solarSystem the solar system
 	 */
-	public void registerSolarSystem(SolarSystem solarSystem) {
+	public static void registerSolarSystem(SolarSystem solarSystem) {
 		GalaxyRegistry.registerSolarSystem(solarSystem);
 	}
 
@@ -231,7 +249,7 @@ public class AstroBuilder {
 	 *
 	 * @param planet the planet
 	 */
-	public void registerPlanet(Planet planet) {
+	public static void registerPlanet(Planet planet) {
 		GalaxyRegistry.registerPlanet(planet);
 	}
 
@@ -240,7 +258,7 @@ public class AstroBuilder {
 	 *
 	 * @param moon the moon
 	 */
-	public void registerMoon(Moon moon) {
+	public static void registerMoon(Moon moon) {
 		GalaxyRegistry.registerMoon(moon);
 	}
 
@@ -250,7 +268,7 @@ public class AstroBuilder {
 	 * @param clazz the clazz
 	 * @param type  the type
 	 */
-	public void registerTeleportType(Class<? extends WorldProvider> clazz, ITeleportType type) {
+	public static void registerTeleportType(Class<? extends WorldProvider> clazz, ITeleportType type) {
 		GalacticraftRegistry.registerTeleportType(clazz, type);
 	}
 
@@ -260,17 +278,17 @@ public class AstroBuilder {
 	 * @param clazz    the clazz
 	 * @param resource the resource
 	 */
-	public void registerRocketGui(String modid, Class<? extends WorldProvider> clazz, String resource) {
+	public static void registerRocketGui(String modid, Class<? extends WorldProvider> clazz, String resource) {
 		GalacticraftRegistry.registerRocketGui(clazz,
 				new ResourceLocation(modid + ":textures/gui/rocket/" + resource + ".png"));
 	}
 
-	public String getModId() {
+	public static String getModId() {
 		return modId;
 	}
 
 	public void setModId(String modId) {
-		this.modId = modId;
+		AstroBuilder.modId = modId;
 	}
 
 	public float[] getRbgarray() {
@@ -278,6 +296,6 @@ public class AstroBuilder {
 	}
 
 	public void setRbgarray(float[] rbgarray) {
-		this.rbgarray = rbgarray;
+		AstroBuilder.rbgarray = rbgarray;
 	}
 }
