@@ -1,5 +1,6 @@
 package net.rom.libs.space;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.annotation.Nullable;
@@ -22,19 +23,6 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
 
 public class AstroBuilder {
-	
-	private static String modId;
-	
-	private static float[] rbgarray = new float[3];
-
-
-	/**
-	 * Instantiates a new astro builder.
-	 */
-	public AstroBuilder(String modId) {
-		this.setModId(modId);
-	}
-
 
 	/**
 	 * builds solar system.
@@ -46,16 +34,14 @@ public class AstroBuilder {
 	 * @param size     the size
 	 * @return the solar system
 	 */
-	public static SolarSystem buildSolarSystem( String name, String galaxy, Vector3 pos, String starname,
-			float size) {
+	public static SolarSystem buildSolarSystem(String modId, String name, String galaxy, Vector3 pos, String starname) {
 		SolarSystem body = new SolarSystem(name, galaxy);
 		body.setMapPosition(pos);
 		Star main = new Star(starname);
 		main.setParentSolarSystem(body);
 		main.setTierRequired(-1);
-		main.setRelativeSize(size);
 		main.setBodyIcon(
-				new ResourceLocation(getModId(), "textures/celestialbodies/" + name + "/" + starname + ".png"));
+				new ResourceLocation(modId, "textures/celestialbodies/" + name + "/" + starname + ".png"));
 		body.setMainStar(main);
 		return body;
 	}
@@ -76,16 +62,37 @@ public class AstroBuilder {
 	 * @param biome              the biome
 	 * @return the planet
 	 */
-	public static Planet buildPlanet(SolarSystem system, String name,
-			Class<? extends WorldProvider> provider, int dimID, int tier, float phase, float size,
+	public static Planet buildPlanet(String modId, SolarSystem system, String name, String color,
+			Class<? extends WorldProvider> provider, int dimID, int tier, float phase,
 			float distancefromcenter, float relativetime, ArrayList<Biome> biome) {
 		Planet body = (new Planet(name)).setParentSolarSystem(system);
-		body.setRingColorRGB(rbgarray[0], rbgarray[1], rbgarray[2]);
+		float[] f = decodeColor(color).getRGBComponents(null);
+		body.setRingColorRGB(f[0], f[1], f[2]);
 		body.setPhaseShift(phase);
-		body.setRelativeSize(size);
 		body.setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(distancefromcenter, distancefromcenter));
 		body.setRelativeOrbitTime(relativetime);
-		body.setBodyIcon(new ResourceLocation(getModId(), "textures/celestialbodies/" + name + ".png"));
+		body.setBodyIcon(new ResourceLocation(modId, "textures/celestialbodies/" + system.getName().toLowerCase() + "/" + name + ".png"));
+		if (provider != null) {
+			body.setTierRequired(tier);
+			body.setDimensionInfo(dimID, provider);
+			if (biome != null)
+				for(Biome b : biome) {
+					body.setBiomeInfo(b);
+				}
+		}
+		return body;
+	}
+	
+	public static Planet buildPlanet(String modId, SolarSystem system, String name, Color color,
+			Class<? extends WorldProvider> provider, int dimID, int tier, float phase,
+			float distancefromcenter, float relativetime, ArrayList<Biome> biome) {
+		Planet body = (new Planet(name)).setParentSolarSystem(system);
+		float[] f = decodeColor(color).getRGBComponents(null);
+		body.setRingColorRGB(f[0], f[1], f[2]);
+		body.setPhaseShift(phase);
+		body.setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(distancefromcenter, distancefromcenter));
+		body.setRelativeOrbitTime(relativetime);
+		body.setBodyIcon(new ResourceLocation(modId, "textures/celestialbodies/" + system.getName().toLowerCase() + "/" + name + ".png"));
 		if (provider != null) {
 			body.setTierRequired(tier);
 			body.setDimensionInfo(dimID, provider);
@@ -113,17 +120,18 @@ public class AstroBuilder {
 	 * @param biome              the biome
 	 * @return the moon
 	 */
-	public static Moon buildMoon(Planet parent, String name, Class<? extends WorldProvider> provider,
+	public static Moon buildMoon(String modId, Planet parent, String name, String color, Class<? extends WorldProvider> provider,
 			int dimID, int tier, float phase, float size, float distancefromcenter, float relativetime,
 			ArrayList<Biome> biome) {
 		Moon body = (new Moon(name)).setParentPlanet(parent);
-		body.setRingColorRGB(rbgarray[0], rbgarray[1], rbgarray[2]);
+		float[] f = decodeColor(color).getRGBComponents(null);
+		body.setRingColorRGB(f[0], f[1], f[2]);
 		body.setPhaseShift(phase);
 		body.setRelativeSize(size);
 		body.setRelativeDistanceFromCenter(new CelestialBody.ScalableDistance(distancefromcenter, distancefromcenter));
 		body.setRelativeOrbitTime(relativetime);
 		body.setBodyIcon(
-				new ResourceLocation(getModId(), "textures/celestialbodies/moons/" + name + ".png"));
+				new ResourceLocation(modId, "textures/celestialbodies/moons/" + name + ".png"));
 		if (provider != null) {
 			body.setTierRequired(tier);
 			body.setDimensionInfo(dimID, provider);
@@ -149,16 +157,17 @@ public class AstroBuilder {
 	 * @param relativetime       the relativetime
 	 * @return the satellite
 	 */
-	public static Satellite buildSpaceStation(Planet parent, Class<? extends WorldProvider> provider, int dimID,
+	public static Satellite buildSpaceStation(String modId, Planet parent, String color, Class<? extends WorldProvider> provider, int dimID,
 			int dimIDStatic, float phase, float size, float distancefromcenter, float relativetime, boolean customStationIcon, @Nullable String bodyIcon) {
 		Satellite body = new Satellite("spacestation." + parent.getUnlocalizedName().replace("planet.", ""));
+		float[] f = decodeColor(color).getRGBComponents(null);
+		body.setRingColorRGB(f[0], f[1], f[2]);
 		body.setParentBody(parent);
 		body.setRelativeOrbitTime(relativetime);
 		body.setPhaseShift(phase);
 		body.setRelativeSize(size);
-		body.setRingColorRGB(rbgarray[0], rbgarray[1], rbgarray[2]);
 		if(customStationIcon) {
-			body.setBodyIcon(new ResourceLocation(getModId(), "textures/celestialbodies/spacestations/"+ bodyIcon +".png"));
+			body.setBodyIcon(new ResourceLocation(modId, "textures/celestialbodies/spacestations/"+ bodyIcon +".png"));
 		} else {
 			body.setBodyIcon(new ResourceLocation("galacticraftcore:textures/gui/celestialbodies/space_station.png"));
 		}
@@ -177,9 +186,9 @@ public class AstroBuilder {
 	 * @param solarSystem the solar system
 	 * @return the planet
 	 */
-	public static Planet buildUnreachablePlanet(String planetName, SolarSystem solarSystem) {
+	public static Planet buildUnreachablePlanet(String planetName, SolarSystem solarSystem, String modId) {
 		Planet unreachable = new Planet(planetName).setParentSolarSystem(solarSystem);
-		unreachable.setBodyIcon(new ResourceLocation(getModId(), "textures/gui/celestialbodies/" + planetName + ".png"));
+		unreachable.setBodyIcon(new ResourceLocation(modId, "textures/gui/celestialbodies/" + planetName + ".png"));
 		GalaxyRegistry.registerPlanet(unreachable);
 		return unreachable;
 	}
@@ -190,7 +199,7 @@ public class AstroBuilder {
 	 * @param Si the si
 	 * @return the float
 	 */
-	public float calculateGravity(float Si) {
+	public static float calculateGravity(float Si) {
 		float i = (9.81F - Si) * 0.008664628F;
 		float k = Math.round(i * 1000.0F);
 		return k / 1000.0F;
@@ -283,19 +292,27 @@ public class AstroBuilder {
 				new ResourceLocation(modid + ":textures/gui/rocket/" + resource + ".png"));
 	}
 
-	public static String getModId() {
-		return modId;
+	public static float[] ringColorHex(String color) {
+		Color c = decodeColor(color);
+		return c.getRGBColorComponents(null);
 	}
-
-	public void setModId(String modId) {
-		AstroBuilder.modId = modId;
+	
+	private static Color decodeColor(String color) {
+	    String colorVal = "";
+	    if (color.length() > 0) {
+	        colorVal = color.trim();
+	        if (colorVal.startsWith("#"))
+	            colorVal = colorVal.substring(1);            
+	            colorVal = new Integer(Integer.parseInt(colorVal, 16)).toString();
+	            return Color.decode(colorVal.toLowerCase());
+	    }
+		return null;
 	}
+	
+	private static Color decodeColor(Color color) {
+	    String colorVal = "";         
+	            colorVal = new Integer(Integer.parseInt(colorVal, 16)).toString();
+	            return Color.decode(colorVal.toLowerCase());
 
-	public float[] getRbgarray() {
-		return rbgarray;
-	}
-
-	public void setRbgarray(float[] rbgarray) {
-		AstroBuilder.rbgarray = rbgarray;
 	}
 }

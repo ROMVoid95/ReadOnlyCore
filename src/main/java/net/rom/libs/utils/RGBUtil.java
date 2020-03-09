@@ -1,28 +1,10 @@
 package net.rom.libs.utils;
 
-import java.awt.Color;
-
 public class RGBUtil {
 	
 	protected static float[] rgbArray = new float[3];
 	
-	public static float[] ringColorHex(String color) {
-		Color c = decodeColor(color);
-		rgbArray = c.getRGBColorComponents(null);
-		return rgbArray;
-	}
-	
-	private static Color decodeColor(String color) {
-	    String colorVal = "";
-	    if (color.length() > 0) {
-	        colorVal = color.trim();
-	        if (colorVal.startsWith("#"))
-	            colorVal = colorVal.substring(1);            
-	            colorVal = new Integer(Integer.parseInt(colorVal, 16)).toString();
-	            return Color.decode(colorVal.toLowerCase());
-	    }
-		return null;
-	}
+
 	
     /**
      * Convert an RGB value

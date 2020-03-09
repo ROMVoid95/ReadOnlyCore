@@ -1,0 +1,13 @@
+package net.rom.libs.space.world.biome;
+
+import net.minecraft.world.biome.Biome;
+
+public abstract class BiomeGenStellarBase extends Biome {
+
+	public BiomeGenStellarBase(BiomeProperties properties) {
+		super(properties);
+	}
+
+	public void registerTypes() {
+	}
+}
