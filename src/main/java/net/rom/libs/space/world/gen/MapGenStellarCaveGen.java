@@ -9,7 +9,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 
-public class MapGenStellarCaveGen extends MapGenStellarBaseMeta {
+public class MapGenStellarCaveGen extends MapGenBaseMeta {
 	public static final int BREAK_THROUGH_CHANCE = 25; // 1 in n chance
 
 	public Block block;

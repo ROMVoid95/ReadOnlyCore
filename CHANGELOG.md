@@ -1,12 +1,15 @@
 
 # ReadOnlyCore Changelog
 
-## 1.0.1
+## 1.0.2
 
- - **Reduce interface to getPlanet only** - *[link](https://github.com/ROMVoid95/ReadOnlyCore/commit/457d657752fbbd5)*
-
-
- - **Easier methods, add unreachablePlanet register** - *[link](https://github.com/ROMVoid95/ReadOnlyCore/commit/87ae7167683bca2)*
+ - **major changes to space package** - *[link](https://github.com/ROMVoid95/ReadOnlyCore/commit/3072fba51c4773c)*
+ 		- AstroBuilder made util class only, add worldgen abstract classes 
 
 
- - **set methods for CelestialBody RingRGB** - *[link](https://github.com/ROMVoid95/ReadOnlyCore/commit/06a9d43cbc2aa30)*
+## 1.0.0-update
+
+ - **Update changelog tempalte, CHANGELOG.md files** - *[link](https://github.com/ROMVoid95/ReadOnlyCore/commit/33ad9d41c5f3c05)*
+
+
+

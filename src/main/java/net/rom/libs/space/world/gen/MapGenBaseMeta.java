@@ -8,7 +8,7 @@ import net.minecraft.world.chunk.ChunkPrimer;
 /*
  * Class from Galacticraft Core
  */
-public abstract class MapGenStellarBaseMeta {
+public abstract class MapGenBaseMeta {
 	
 	/**
 	 * The number of Chunks to gen-check in any given direction.

@@ -3,7 +3,6 @@ package net.rom.libs.space.world.chunk;
 import java.util.List;
 import java.util.Random;
 
-import micdoodle8.mods.galacticraft.api.prefab.world.gen.MapGenBaseMeta;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
@@ -16,6 +15,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
+import net.rom.libs.space.world.gen.MapGenBaseMeta;
 
 public abstract class ChunkProviderMultiBiomeBase extends ChunkProviderBasic {
 	private Random rand;
@@ -92,10 +92,10 @@ public abstract class ChunkProviderMultiBiomeBase extends ChunkProviderBasic {
 		return chunk;
 	}
 
-	public void setBlocksInChunk(int p_180518_1_, int p_180518_2_, ChunkPrimer p_180518_3_) {
+	public void setBlocksInChunk(int x, int z, ChunkPrimer primer) {
 		this.biomesForGeneration = this.worldObj.getBiomeProvider().getBiomesForGeneration(this.biomesForGeneration,
-				p_180518_1_ * 4 - 2, p_180518_2_ * 4 - 2, 10, 10);
-		this.generateHeightMap(p_180518_1_ * 4, 0, p_180518_2_ * 4);
+				x * 4 - 2, z * 4 - 2, 10, 10);
+		this.generateHeightMap(x * 4, 0, z * 4);
 
 		for (int i = 0; i < 4; ++i) {
 			int j = i * 5;
@@ -132,10 +132,10 @@ public abstract class ChunkProviderMultiBiomeBase extends ChunkProviderBasic {
 
 							for (int l2 = 0; l2 < 4; ++l2) {
 								if ((lvt_45_1_ += d16) > 0.0D) {
-									p_180518_3_.setBlockState(i * 4 + k2, i2 * 8 + j2, l * 4 + l2,
+									primer.setBlockState(i * 4 + k2, i2 * 8 + j2, l * 4 + l2,
 											ChunkProviderMultiBiomeBase.stoneBlock);
 								} else if (i2 * 8 + j2 < 63) {
-									p_180518_3_.setBlockState(i * 4 + k2, i2 * 8 + j2, l * 4 + l2,
+									primer.setBlockState(i * 4 + k2, i2 * 8 + j2, l * 4 + l2,
 											ChunkProviderMultiBiomeBase.waterBlock);
 								}
 							}

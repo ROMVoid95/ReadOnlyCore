@@ -8,6 +8,12 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+
+/**
+ * Use {@link BiomeDecoratorFixedBase}
+ * 
+ * @deprecated
+ */
 public abstract class BiomeDecoratorStellarBase extends BiomeDecorator {
 	
 	protected Random rand;
