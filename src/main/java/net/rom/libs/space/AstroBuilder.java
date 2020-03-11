@@ -1,7 +1,6 @@
 package net.rom.libs.space;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
@@ -36,10 +35,9 @@ public class AstroBuilder {
 	 */
 	public static SolarSystem buildSolarSystem(String modId, String name, String galaxy, Vector3 pos, String starname) {
 		SolarSystem body = new SolarSystem(name, galaxy);
-		body.setMapPosition(pos);
+		body.setMapPosition(new Vector3(pos));
 		Star main = new Star(starname);
 		main.setParentSolarSystem(body);
-		main.setTierRequired(-1);
 		main.setBodyIcon(
 				new ResourceLocation(modId, "textures/celestialbodies/" + name + "/" + starname + ".png"));
 		body.setMainStar(main);
@@ -64,7 +62,7 @@ public class AstroBuilder {
 	 */
 	public static Planet buildPlanet(String modId, SolarSystem system, String name, String color,
 			Class<? extends WorldProvider> provider, int dimID, int tier, float phase,
-			float distancefromcenter, float relativetime, ArrayList<Biome> biome) {
+			float distancefromcenter, float relativetime) {
 		Planet body = (new Planet(name)).setParentSolarSystem(system);
 		float[] f = decodeColor(color).getRGBComponents(null);
 		body.setRingColorRGB(f[0], f[1], f[2]);
@@ -75,17 +73,29 @@ public class AstroBuilder {
 		if (provider != null) {
 			body.setTierRequired(tier);
 			body.setDimensionInfo(dimID, provider);
-			if (biome != null)
-				for(Biome b : biome) {
-					body.setBiomeInfo(b);
-				}
 		}
 		return body;
 	}
 	
+	/**
+	 * Builds the planet.
+	 *
+	 * @param modId the mod id
+	 * @param system the system
+	 * @param name the name
+	 * @param color the color
+	 * @param provider the provider
+	 * @param dimID the dim ID
+	 * @param tier the tier
+	 * @param phase the phase
+	 * @param distancefromcenter the distancefromcenter
+	 * @param relativetime the relativetime
+	 * @param biome the biome
+	 * @return the planet
+	 */
 	public static Planet buildPlanet(String modId, SolarSystem system, String name, Color color,
 			Class<? extends WorldProvider> provider, int dimID, int tier, float phase,
-			float distancefromcenter, float relativetime, ArrayList<Biome> biome) {
+			float distancefromcenter, float relativetime) {
 		Planet body = (new Planet(name)).setParentSolarSystem(system);
 		float[] f = decodeColor(color).getRGBComponents(null);
 		body.setRingColorRGB(f[0], f[1], f[2]);
@@ -96,10 +106,6 @@ public class AstroBuilder {
 		if (provider != null) {
 			body.setTierRequired(tier);
 			body.setDimensionInfo(dimID, provider);
-			if (biome != null)
-				for(Biome b : biome) {
-					body.setBiomeInfo(b);
-				}
 		}
 		return body;
 	}
@@ -121,8 +127,7 @@ public class AstroBuilder {
 	 * @return the moon
 	 */
 	public static Moon buildMoon(String modId, Planet parent, String name, String color, Class<? extends WorldProvider> provider,
-			int dimID, int tier, float phase, float size, float distancefromcenter, float relativetime,
-			ArrayList<Biome> biome) {
+			int dimID, int tier, float phase, float size, float distancefromcenter, float relativetime) {
 		Moon body = (new Moon(name)).setParentPlanet(parent);
 		float[] f = decodeColor(color).getRGBComponents(null);
 		body.setRingColorRGB(f[0], f[1], f[2]);
@@ -135,10 +140,6 @@ public class AstroBuilder {
 		if (provider != null) {
 			body.setTierRequired(tier);
 			body.setDimensionInfo(dimID, provider);
-			if (biome != null)
-				for(Biome b : biome) {
-					body.setBiomeInfo(b);
-				}
 		}
 		return body;
 	}
@@ -232,6 +233,16 @@ public class AstroBuilder {
 			float relativeTemperature, float windLevel, float density) {
 		celestial.setAtmosphere(
 				new AtmosphereInfo(breathable, precipitation, corrosive, relativeTemperature, windLevel, density));
+	}
+	
+	/**
+	 * Sets the biomes.
+	 *
+	 * @param celestial the celestial
+	 * @param bomes the bomes
+	 */
+	public static void setBiomes(CelestialBody celestial, Biome... bomes) {
+		celestial.setBiomeInfo(bomes);
 	}
 
 	/**
