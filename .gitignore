@@ -1,17 +1,12 @@
-## Based on GitHub's Eclipse .gitignore
-
-run/
-.gradle/
-build/
-gradle-app.setting
-
-## Eclipse
-
-eclipse/
-.project
+# eclipse
+bin
+*.launch
+.settings
+.settings/*
 .metadata
-bin/
-tmp/
+.classpath
+.project
+eclipse/
 *.tmp
 *.bak
 *.swp
@@ -21,15 +16,22 @@ local.properties
 .settings/
 .loadpath
 
-# External tool builders
-.externalToolBuilders/
-
 # Locally stored "Eclipse launch configurations"
 *.launch
 
-# CDT-specific
-.cproject
+# gradle
+build
+.gradle
 
-# PDT-specific
-.buildpath
+# other
+eclipse
+run
+classes
+*.hprof
 /secret.json
+libs/*
+!/libs/README.txt
+
+.DS_Store
+.okhttpcache/*
+/gradle.properties

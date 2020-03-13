@@ -1,15 +1,10 @@
-# {{repoName}} Changelog
-
 {{#tags}}
-## {{name}}
-
+ {{#issues}}
   {{#commits}}
- - **{{{messageTitle}}}** - *[link](https://github.com/{{ownerName}}/{{repoName}}/commit/{{hash}})*
-
+**{{{messageTitle}}}**
 {{#messageBodyItems}}
  * {{.}} 
 {{/messageBodyItems}}
-
   {{/commits}}
-
+ {{/issues}}
 {{/tags}}

@@ -44,7 +44,7 @@ public final class RecipeBuilder {
         if (key.isEmpty()) key = "recipe" + (++lastRecipeIndex);
         return resourcePrefix + key.toLowerCase(Locale.ROOT);
     }
-
+	
     private void attemptJson(String name, boolean shaped, ItemStack result, Object... inputs) {
         if (!jsonHellMode) return;
         name = name.replaceFirst(resourcePrefix, "");
