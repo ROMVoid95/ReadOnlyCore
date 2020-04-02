@@ -1,7 +1,6 @@
 package net.rom.core.space.implemtations.star;
 
 import micdoodle8.mods.galacticraft.api.galaxies.SolarSystem;
-import net.rom.core.space.calculations.SpectralClassifcation;
 import net.rom.core.space.enums.SpectralClass;
 
 public interface IExoStar {
