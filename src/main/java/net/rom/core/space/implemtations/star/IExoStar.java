@@ -33,14 +33,7 @@ public interface IExoStar {
 	 * @return the stars radius in solar units
 	 */
 	public double getStellarRadius();
-	
-	/**
-	 * Gets the stars radius in solar units
-	 *
-	 * @return the stars radius in solar units
-	 */
-	public double getLuminosity();
-	
+
 	/**
 	 * Gets the stars radius in solar units
 	 *

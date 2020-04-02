@@ -12,7 +12,6 @@ public class ExoStar extends Star implements IExoStar {
 	private SolarSystem starSystem;
 	private int surfaceTemp;
 	private double radius;
-	private double luminosity;
 	private double mass;
 	
 
@@ -48,11 +47,6 @@ public class ExoStar extends Star implements IExoStar {
 	@Override
 	public SpectralClass getSpectralClassifcation() {
 		return this.spectralClass;
-	}
-
-	@Override
-	public double getLuminosity() {
-		return this.luminosity;
 	}
 
 	@Override
