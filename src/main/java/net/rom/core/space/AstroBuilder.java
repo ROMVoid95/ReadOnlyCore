@@ -20,6 +20,7 @@ import micdoodle8.mods.galacticraft.core.world.gen.BiomeOrbit;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
+import net.rom.core.space.implemtations.planet.ExoPlanet;
 
 public class AstroBuilder {
 	

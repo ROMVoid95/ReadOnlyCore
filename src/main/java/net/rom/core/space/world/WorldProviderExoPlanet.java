@@ -14,7 +14,7 @@ import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.client.IRenderHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.rom.core.space.ExoPlanet;
+import net.rom.core.space.implemtations.planet.ExoPlanet;
 
 public abstract class WorldProviderExoPlanet extends WorldProviderSpace implements ISolarLevel, IExitHeight {
 

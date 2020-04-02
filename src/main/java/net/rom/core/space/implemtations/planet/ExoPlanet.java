@@ -1,4 +1,4 @@
-package net.rom.core.space;
+package net.rom.core.space.implemtations.planet;
 
 import java.util.ArrayList;
 
