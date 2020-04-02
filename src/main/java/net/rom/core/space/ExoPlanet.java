@@ -10,6 +10,7 @@ import micdoodle8.mods.galacticraft.api.world.EnumAtmosphericGas;
 import net.rom.core.space.enums.EnumClass;
 import net.rom.core.space.enums.EnumDiscMethod;
 import net.rom.core.space.enums.EnumTPHClass;
+import net.rom.core.space.world.WorldProviderExoPlanet;
 
 
 public class ExoPlanet extends Planet implements IExoPlanet {
