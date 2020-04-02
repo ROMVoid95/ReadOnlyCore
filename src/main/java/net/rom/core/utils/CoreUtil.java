@@ -1,7 +1,9 @@
 package net.rom.core.utils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -39,6 +41,10 @@ public class CoreUtil {
 			return serverCached;
 		}
 		return server;
+	}
+	
+	public static Minecraft getClient() {
+		return FMLClientHandler.instance().getClient();
 	}
 
 }
