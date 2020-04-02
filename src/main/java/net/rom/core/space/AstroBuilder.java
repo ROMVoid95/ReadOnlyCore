@@ -208,6 +208,20 @@ public class AstroBuilder {
 	 * @param solarSystem the solar system
 	 * @return the planet
 	 */
+	public ExoPlanet buildUnreachablePlanet(SolarSystem solarSystem, String planetName) {
+		ExoPlanet unreachable = (ExoPlanet) new ExoPlanet(planetName).setParentSolarSystem(solarSystem);
+		unreachable.setBodyIcon(new ResourceLocation(getModid(), "textures/celestialbodies/" + solarSystem.getName().toLowerCase() + "/" + planetName + ".png"));
+		GalaxyRegistry.registerPlanet(unreachable);
+		return unreachable;
+	}
+	
+	/**
+	 * Builds unreachable planet.
+	 *
+	 * @param planetName the planet name
+	 * @param solarSystem the solar system
+	 * @return the planet
+	 */
 	public Planet buildUnreachablePlanet(String planetName, SolarSystem solarSystem) {
 		Planet unreachable = new Planet(planetName).setParentSolarSystem(solarSystem);
 		unreachable.setBodyIcon(new ResourceLocation(getModid(), "textures/celestialbodies/" + solarSystem.getName().toLowerCase() + "/" + planetName + ".png"));
