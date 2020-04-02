@@ -56,8 +56,8 @@ public class ExoPlanet extends Planet implements IExoPlanet {
 		return this;
 	}
 
-	public ExoPlanet setTHPClass(EnumTPHClass tphClass) {
-		this.habibilityClass = tphClass;
+	public ExoPlanet setTHPClass() {
+		this.habibilityClass = EnumTPHClass.getTPHFromTemp(getPlanetTemp());
 		return this;
 	}
 
