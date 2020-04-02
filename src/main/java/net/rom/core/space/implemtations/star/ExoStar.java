@@ -23,6 +23,31 @@ public class ExoStar extends Star implements IExoStar {
 		this.starName = starName;
 		return this;
 	}
+	
+	public ExoStar setStarSolarSystem(SolarSystem solarSystem) {
+		this.starSystem = solarSystem;
+		return this;
+	}
+	
+	public ExoStar setSurfaceTemp(int surfaceTemp) {
+		this.surfaceTemp = surfaceTemp;
+		return this;
+	}
+	
+	public ExoStar setStarMass(double mass) {
+		this.mass = mass;
+		return this;
+	}
+	
+	public ExoStar setStarRadius(double radius) {
+		this.radius = radius;
+		return this;
+	}
+	
+	public ExoStar setSpectralClass() {
+		this.spectralClass = SpectralClass.getClass(getSurfaceTemp());
+		return this;
+	}
 
 	@Override
 	public String getStarName() {
