@@ -21,6 +21,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.Biome;
 import net.rom.core.space.implemtations.planet.ExoPlanet;
+import net.rom.core.space.implemtations.star.ExoStar;
 
 public class AstroBuilder {
 	
@@ -69,6 +70,26 @@ public class AstroBuilder {
 		body.setMainStar(main);
 		return body;
 	}
+	
+	/**
+	 * Builds the solar system.
+	 *
+	 * @param name the name
+	 * @param galaxy the galaxy
+	 * @param pos the pos
+	 * @param exoStar the exo star
+	 * @return the solar system
+	 */
+	public SolarSystem buildSolarSystem(String name, String galaxy, Vector3 pos, ExoStar exoStar) {
+		SolarSystem body = new SolarSystem(name, galaxy);
+		body.setMapPosition(new Vector3(pos));
+		exoStar.setParentSolarSystem(body);
+		exoStar.setBodyIcon(
+				new ResourceLocation(getModid(), "textures/celestialbodies/" + name + "/" + exoStar.getName() + ".png"));
+		body.setMainStar(exoStar);
+		return body;
+	}
+	
 	
 	/**
 	 * builds planet.
