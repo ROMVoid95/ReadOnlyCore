@@ -38,6 +38,7 @@ public class ExoPlanet extends Planet implements IExoPlanet {
 	public ExoPlanet(String planetName) {
 		super(planetName);
 		this.addChecklistKeys("thermal_padding", "equip_oxygen_suit", "equip_parachute");
+		
 	}
 
 	/**
