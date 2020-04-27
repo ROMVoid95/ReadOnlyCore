@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
-import net.rom.core.autoreg.StellarRegistry;
+import net.rom.core.autoreg.ReadonlyReg;
 
 
 /**
@@ -87,9 +87,9 @@ public interface IEnumItems<E extends Enum<E>, I extends Item> extends IStringSe
     }
 
     class RegistrationHelper {
-        private final StellarRegistry registry;
+        private final ReadonlyReg registry;
 
-        public RegistrationHelper(StellarRegistry registry) {
+        public RegistrationHelper(ReadonlyReg registry) {
             this.registry = registry;
         }
 
