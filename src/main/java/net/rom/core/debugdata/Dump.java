@@ -35,7 +35,7 @@ public final class Dump {
 		for (Block block : ForgeRegistries.BLOCKS) {
 			try {
 				ResourceLocation name = Objects.requireNonNull(block.getRegistryName(), REGISTRY_NAME_IS_NULL);
-				String translatedName = I18n.format(block.getUnlocalizedName() + ".name");
+				String translatedName = I18n.format(block.getTranslationKey() + ".name");
 				lines.add(String.format("%-60s %-60s", name, translatedName));
 			} catch (Exception ex) {
 				ReadOnlyCore.LOGGER.warn("*** Error on block: {} ***", block);
@@ -93,7 +93,7 @@ public final class Dump {
 		for (Item item : ForgeRegistries.ITEMS) {
 			try {
 				ResourceLocation name = Objects.requireNonNull(item.getRegistryName(), REGISTRY_NAME_IS_NULL);
-				String translatedName = I18n.format(item.getUnlocalizedName() + ".name");
+				String translatedName = I18n.format(item.getTranslationKey() + ".name");
 				lines.add(String.format("%-60s %-60s", name, translatedName));
 			} catch (Exception ex) {
 				ReadOnlyCore.LOGGER.warn("*** Error on item: {} ***", item);

@@ -67,13 +67,13 @@ import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfessio
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-import net.rom.core.block.BlockMetaSubtypes;
-import net.rom.core.block.inerf.IColorBlock;
-import net.rom.core.block.inerf.ITEBlock;
 import net.rom.core.client.ICustomMesh;
 import net.rom.core.client.ICustomModel;
-import net.rom.core.items.IColorItem;
-import net.rom.core.items.ItemBlockMetaSubtypes;
+import net.rom.core.content.block.BlockMetaSubtypes;
+import net.rom.core.content.block.inerf.IColorBlock;
+import net.rom.core.content.block.inerf.ITEBlock;
+import net.rom.core.content.items.IColorItem;
+import net.rom.core.content.items.ItemBlockMetaSubtypes;
 import net.rom.core.utils.MCUtil;
 
 public class ReadonlyReg {
@@ -156,7 +156,7 @@ public class ReadonlyReg {
         CreativeTabs tab = new CreativeTabs(label) {
 
 			@Override
-			public ItemStack getTabIconItem() {
+			public ItemStack createIcon() {
 				return icon.get();
 			}
 
@@ -189,7 +189,7 @@ public class ReadonlyReg {
      */
     public <T extends Block> T registerBlock(T block, String key, ItemBlock itemBlock) {
         blocks.add(block);
-        block.setUnlocalizedName(modId + "." + key);
+        block.setTranslationKey(modId + "." + key);
 
         validateRegistryName(key);
         ResourceLocation name = new ResourceLocation(modId, key);
@@ -228,7 +228,7 @@ public class ReadonlyReg {
      */
     public <T extends Item> T registerItem(T item, String key) {
         items.add(item);
-        item.setUnlocalizedName(modId + "." + key.toLowerCase());
+        item.setTranslationKey(modId + "." + key.toLowerCase());
         validateRegistryName(key);
         ResourceLocation name = new ResourceLocation(modId, key);
         safeSetRegistryName(item, name);
@@ -255,7 +255,7 @@ public class ReadonlyReg {
         validateRegistryName(key);
         ResourceLocation name = new ResourceLocation(modId, key);
         safeSetRegistryName(enchantment, name);
-        enchantment.setName(name.getResourceDomain() + "." + name.getResourcePath());
+        enchantment.setName(name.getNamespace() + "." + name.getPath());
         ForgeRegistries.ENCHANTMENTS.register(enchantment);
     }
 
@@ -462,7 +462,7 @@ public class ReadonlyReg {
         int oldRecipeRegisterCount = recipes.getOldRecipeRegisterCount();
         if (oldRecipeRegisterCount > 0) {
             long totalRecipes = ForgeRegistries.RECIPES.getKeys().stream()
-                    .map(ResourceLocation::getResourceDomain)
+                    .map(ResourceLocation::getNamespace)
                     .filter(s -> s.equals(modId))
                     .count();
             logger.warn("Mod '{}' is still registering recipes with RecipeMaker ({} recipes, out of {} total)",

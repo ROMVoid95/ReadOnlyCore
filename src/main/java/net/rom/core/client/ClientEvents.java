@@ -7,7 +7,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickBlock
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.rom.core.ReadOnlyCore;
-import net.rom.core.items.ILeftClickItem;
+import net.rom.core.content.items.ILeftClickItem;
 import net.rom.core.network.MessageLeftClick;
 
 public final class ClientEvents {

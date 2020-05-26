@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import net.rom.core.items.IEnumItems;
+import net.rom.core.content.items.IEnumItems;
 import net.rom.core.recipe.IRSerializer;
 import net.rom.core.recipe.JsonReceipe;
 

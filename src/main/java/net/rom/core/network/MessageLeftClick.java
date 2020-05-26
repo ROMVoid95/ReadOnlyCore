@@ -6,7 +6,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
-import net.rom.core.items.ILeftClickItem;
+import net.rom.core.content.items.ILeftClickItem;
 
 public final class MessageLeftClick extends LibMessage{
     /**
