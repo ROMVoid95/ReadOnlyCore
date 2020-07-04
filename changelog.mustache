@@ -1,19 +1,10 @@
-# Changelog
-
-Changelog for {{ownerName}} {{repoName}}.
-
 {{#tags}}
-## {{name}}
  {{#issues}}
-  {{#hasLink}}
-### {{name}} [{{issue}}]({{link}}) {{title}}
-  {{/hasLink}}
-  {{^hasLink}}
-### {{name}}
-  {{/hasLink}}
   {{#commits}}
-[{{hash}}](https://github.com/ROMVoid95/ReadOnlyCore/commit/{{hash}}) {{authorName}} *{{commitTime}}*
-{{{message}}}
+**{{{messageTitle}}}**
+{{#messageBodyItems}}
+ * {{.}} 
+{{/messageBodyItems}}
   {{/commits}}
  {{/issues}}
 {{/tags}}
