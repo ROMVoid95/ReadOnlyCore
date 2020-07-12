@@ -66,9 +66,35 @@ if (secretFile.exists()) {
     )
 }
 
+def loadProperties() {
+	// Config file with custom properties
+	ext.configFile = file "build.properties"
+	configFile.withReader {
+		def prop = new Properties()
+		prop.load(it)
+		ext.config = new ConfigSlurper().parse prop
+	}
+	
+	// grab buildNumber
+	ext.buildnumber = "DEV" // this will be referenced as simply project.buildnumber from now on.
+	if (System.getenv().BUILD_NUMBER)
+		project.buildnumber = System.getenv().BUILD_NUMBER
+	if (System.getenv().TRAVIS_BUILD_NUMBER)
+		project.buildnumber = System.getenv().TRAVIS_BUILD_NUMBER
+	if (System.getenv().CI) {
+		//project.buildnumber += "-DEV"
+	}
+	if (System.getenv().RELEASE || System.getenv().TRAVIS_TAG)
+		project.buildnumber = "RELEASE"
+	logger.lifecycle "BUILDING VERSION: " + project.buildnumber
+}
+
 def versionBuild = 0
 if (System.getenv("BUILD_NUMBER") != null)
     versionBuild = System.getenv("BUILD_NUMBER")
+
+	
+loadProperties()
 
 version = "${versionMajor}.${versionMinor}.${versionBuild}"
 group = "${group}"

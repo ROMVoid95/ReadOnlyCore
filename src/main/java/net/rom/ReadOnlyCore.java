@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -23,7 +24,7 @@ import net.rom.utils.TranslateUtil;
 /**
  * The Class ReadOnlyCore.
  */
-@Mod(modid = Ref.MODID, name = Ref.NAME, version = Ref.VERSION, acceptedMinecraftVersions = Ref.ACCEPTED_MC_VERSION, updateJSON = Ref.UPDATE_URL, dependencies = Ref.DEPENDENCIES)
+@Mod(modid = Ref.MODID, name = Ref.NAME, version = Ref.VERSION, acceptedMinecraftVersions = Ref.ACCEPTED_MC_VERSION, updateJSON = Ref.UPDATE_URL, dependencies = Ref.DEPENDENCIES, certificateFingerprint = Ref.FINGERPRINT)
 public class ReadOnlyCore implements IMod{
 
 
@@ -85,6 +86,12 @@ public class ReadOnlyCore implements IMod{
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);
 	}
+	
+    @EventHandler
+    public void onFingerprintViolation (FMLFingerprintViolationEvent event) {
+
+    	LOGGER.warn("Invalid fingerprint detected! The file " + event.getSource().getName() + " may have been tampered with. This version will NOT be supported by the author!");
+    }
 
 	/**
 	 * Gets the mod id.

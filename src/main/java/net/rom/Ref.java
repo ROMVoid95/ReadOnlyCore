@@ -20,6 +20,8 @@ public class Ref {
 	/** The Constant BUILD_NUM. */
 	public static final int BUILD_NUM = 0;
 	
+	public static final String FINGERPRINT = "1a0493631079de0190679303c225b8b5c0a49ae6";
+	
 	/** The Constant DEPENDENCIES. */
 	public static final String DEPENDENCIES = "";
 	
