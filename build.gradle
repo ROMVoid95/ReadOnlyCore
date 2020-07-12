@@ -70,7 +70,7 @@ def versionBuild = 0
 if (System.getenv("BUILD_NUMBER") != null)
     versionBuild = System.getenv("BUILD_NUMBER")
 
-version = "${versionMajor}.${versionMinor}.${versionRev}.${versionBuild}"
+version = "${versionMajor}.${versionMinor}.${versionBuild}"
 group = "${group}"
 archivesBaseName = "${name}"
 
