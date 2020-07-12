@@ -70,7 +70,7 @@ def versionBuild = 0
 if (System.getenv("BUILD_NUMBER") != null)
     versionBuild = System.getenv("BUILD_NUMBER")
 
-version = "${mcVersion}-${versionMajor}.${versionMinor}.${versionRev}.${versionBuild}"
+version = "${versionMajor}.${versionMinor}.${versionRev}.${versionBuild}"
 group = "${group}"
 archivesBaseName = "${name}"
 
@@ -86,13 +86,6 @@ repositories {
 }
 
 dependencies {
-
- 	compile files (
- 	"lib/Galacticraft-API-1.12.2-${gcversion}.jar",	
-	"lib/GalacticraftCore-Dev-1.12.2-${gcversion}.jar",
-	"lib/Galacticraft-Planets-Dev-1.12.2-${gcversion}.jar",
-	"lib/MicdoodleCore-Dev-1.12.2-${gcversion}.jar",
-	)
 
 }
 
@@ -181,7 +174,7 @@ task deobfJar(type: Jar) {
         getBooleanProperty('create_deobf_jar')
     }
 
-    classifier = 'deobf'
+    classifier = 'dev'
     from sourceSets.main.output
     manifest {
         mainAttributes(
@@ -474,4 +467,62 @@ task gitChangelog(type: GitChangelogTask) {
     fromRepo = file(".");
 
     templateContent = file('changelog.mustache').getText('UTF-8')
+}
+
+publishing {
+	publications {
+		ReadOnlyCore(MavenPublication) {
+			groupId project.group
+			artifactId project.archivesBaseName
+			version project.version
+			from components.java
+
+			artifact sourceJar {
+				classifier 'sources'
+			}
+
+			artifact deobfJar {
+				classifier 'dev'
+			}
+			pom {
+				name = "ReadOnlyCore"
+				url = "https://github.com/ROMVoid95/ReadOnlyCore"
+				packaging = "jar"
+				inceptionYear = "2020"
+				licenses {
+					license {
+						name = "GNU General Public License v3.0"
+						url = "https://www.gnu.org/licenses/gpl-3.0.en.html"
+						distribution = "repo"
+					}
+				}
+				scm {
+					connection = "scm:git@github.com/ROMVoid95/Interstellar-Exoplanets.git"
+					developerConnection = "scm:git@github.com/ROMVoid95/Interstellar-Exoplanets.git"
+					url = "https://github.com/ROMVoid95/Interstellar-Exoplanets"
+				}
+				issueManagement {
+					system = "github"
+					url = "https://github.com/ROMVoid95/Interstellar-Exoplanets/issues"
+				}
+				organization {
+					name = "ReadOnly Mods"
+					url = "https://romvoid.dev/"
+				}
+				developers {
+					developer {
+						id = "ROMVoid95"
+						name = "ROM"
+						email = "rom@romvoid.dev"
+					}
+				}
+			}
+		}
+	}
+	repositories {
+		maven {
+			name = "LocalMaven"
+			url = "file://Z:/"
+		}
+	}
 }
