@@ -1,0 +1,479 @@
+package net.rom.utils;
+
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
+
+
+
+
+/**
+ * The Class MathUtil.
+ */
+public class MathUtil {
+    
+    /** The Constant phi. */
+    public static final double phi = 1.618033988749894;
+    
+    /** The Constant pi. */
+    public static final double pi = Math.PI;
+    
+    /** The Constant todeg. */
+    public static final double todeg = 57.29577951308232;
+    
+    /** The Constant torad. */
+    public static final double torad = 0.017453292519943;
+    
+    /** The Constant sqrt2. */
+    public static final double sqrt2 = 1.414213562373095;
+
+    /** The sin table. */
+    public static double[] SIN_TABLE = new double[65536];
+
+    static {
+        for (int i = 0; i < 65536; ++i) {
+            SIN_TABLE[i] = Math.sin(i / 65536D * 2 * Math.PI);
+        }
+
+        SIN_TABLE[0] = 0;
+        SIN_TABLE[16384] = 1;
+        SIN_TABLE[32768] = 0;
+        SIN_TABLE[49152] = 1;
+    }
+
+    /**
+     * Sin.
+     *
+     * @param d the d
+     * @return the double
+     */
+    public static double sin(double d) {
+        return SIN_TABLE[(int) ((float) d * 10430.378F) & 65535];
+    }
+
+    /**
+     * Cos.
+     *
+     * @param d the d
+     * @return the double
+     */
+    public static double cos(double d) {
+        return SIN_TABLE[(int) ((float) d * 10430.378F + 16384.0F) & 65535];
+    }
+
+    /**
+     * Approach linear.
+     *
+     * @param a   The value
+     * @param b   The value to approach
+     * @param max The maximum step
+     * @return the closed value to b no less than max from a
+     */
+    public static float approachLinear(float a, float b, float max) {
+        return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
+    }
+
+    /**
+     * Approach linear.
+     *
+     * @param a   The value
+     * @param b   The value to approach
+     * @param max The maximum step
+     * @return the closed value to b no less than max from a
+     */
+    public static double approachLinear(double a, double b, double max) {
+        return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
+    }
+
+    /**
+     * Interpolate.
+     *
+     * @param a The first value
+     * @param b The second value
+     * @param d The interpolation factor, between 0 and 1
+     * @return a+(b-a)*d
+     */
+    public static float interpolate(float a, float b, float d) {
+        return a + (b - a) * d;
+    }
+
+    /**
+     * Interpolate.
+     *
+     * @param a The first value
+     * @param b The second value
+     * @param d The interpolation factor, between 0 and 1
+     * @return a+(b-a)*d
+     */
+    public static double interpolate(double a, double b, double d) {
+        return a + (b - a) * d;
+    }
+
+    /**
+     * Approach exp.
+     *
+     * @param a     The value
+     * @param b     The value to approach
+     * @param ratio The ratio to reduce the difference by
+     * @return a+(b-a)*ratio
+     */
+    public static double approachExp(double a, double b, double ratio) {
+        return a + (b - a) * ratio;
+    }
+
+    /**
+     * Approach exp.
+     *
+     * @param a     The value
+     * @param b     The value to approach
+     * @param ratio The ratio to reduce the difference by
+     * @param cap   The maximum amount to advance by
+     * @return a+(b-a)*ratio
+     */
+    public static double approachExp(double a, double b, double ratio, double cap) {
+        double d = (b - a) * ratio;
+        if (Math.abs(d) > cap) {
+            d = Math.signum(d) * cap;
+        }
+        return a + d;
+    }
+
+    /**
+     * Retreat exp.
+     *
+     * @param a     The value
+     * @param b     The value to approach
+     * @param c     The value to retreat from
+     * @param ratio The ratio to reduce the difference by
+     * @param kick  The difference when a == c
+     * @return the double
+     */
+    public static double retreatExp(double a, double b, double c, double ratio, double kick) {
+        double d = (Math.abs(c - a) + kick) * ratio;
+        if (d > Math.abs(b - a)) {
+            return b;
+        }
+        return a + Math.signum(b - a) * d;
+    }
+
+    /**
+     * Clip.
+     *
+     * @param value The value
+     * @param min   The min value
+     * @param max   The max value
+     * @return The clipped value between min and max
+     */
+    public static double clip(double value, double min, double max) {
+        if (value > max) {
+            value = max;
+        }
+        if (value < min) {
+            value = min;
+        }
+        return value;
+    }
+
+    /**
+     * Clip.
+     *
+     * @param value The value
+     * @param min   The min value
+     * @param max   The max value
+     * @return The clipped value between min and max
+     */
+    public static float clip(float value, float min, float max) {
+        if (value > max) {
+            value = max;
+        }
+        if (value < min) {
+            value = min;
+        }
+        return value;
+    }
+
+    /**
+     * Clip.
+     *
+     * @param value The value
+     * @param min   The min value
+     * @param max   The max value
+     * @return The clipped value between min and max
+     */
+    public static int clip(int value, int min, int max) {
+        if (value > max) {
+            value = max;
+        }
+        if (value < min) {
+            value = min;
+        }
+        return value;
+    }
+
+    /**
+     * Maps a value range to another value range.
+     *
+     * @param valueIn The value to map.
+     * @param inMin   The minimum of the input value range.
+     * @param inMax   The maximum of the input value range
+     * @param outMin  The minimum of the output value range.
+     * @param outMax  The maximum of the output value range.
+     * @return The mapped value.
+     */
+    public static double map(double valueIn, double inMin, double inMax, double outMin, double outMax) {
+        return (valueIn - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+    }
+
+    /**
+     * Maps a value range to another value range.
+     *
+     * @param valueIn The value to map.
+     * @param inMin   The minimum of the input value range.
+     * @param inMax   The maximum of the input value range
+     * @param outMin  The minimum of the output value range.
+     * @param outMax  The maximum of the output value range.
+     * @return The mapped value.
+     */
+    public static float map(float valueIn, float inMin, float inMax, float outMin, float outMax) {
+        return (valueIn - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+    }
+
+    /**
+     * Rounds the number of decimal places based on the given multiplier.<br>
+     * e.g.<br>
+     * Input: 17.5245743<br>
+     * multiplier: 1000<br>
+     * Output: 17.534<br>
+     * multiplier: 10<br>
+     * Output 17.5<br><br>
+     *
+     * @param number     The input value.
+     * @param multiplier The multiplier.
+     * @return The input rounded to a number of decimal places based on the multiplier.
+     */
+    public static double round(double number, double multiplier) {
+        return Math.round(number * multiplier) / multiplier;
+    }
+
+    /**
+     * Rounds the number of decimal places based on the given multiplier.<br>
+     * e.g.<br>
+     * Input: 17.5245743<br>
+     * multiplier: 1000<br>
+     * Output: 17.534<br>
+     * multiplier: 10<br>
+     * Output 17.5<br><br>
+     *
+     * @param number     The input value.
+     * @param multiplier The multiplier.
+     * @return The input rounded to a number of decimal places based on the multiplier.
+     */
+    public static float round(float number, float multiplier) {
+        return Math.round(number * multiplier) / multiplier;
+    }
+
+    /**
+     * Between.
+     *
+     * @param min the min
+     * @param value the value
+     * @param max the max
+     * @return true if value is between
+     */
+    public static boolean between(double min, double value, double max) {
+        return min <= value && value <= max;
+    }
+
+    /**
+     * Approach exp I.
+     *
+     * @param a the a
+     * @param b the b
+     * @param ratio the ratio
+     * @return the int
+     */
+    public static int approachExpI(int a, int b, double ratio) {
+        int r = (int) Math.round(approachExp(a, b, ratio));
+        return r == a ? b : r;
+    }
+
+    /**
+     * Retreat exp I.
+     *
+     * @param a the a
+     * @param b the b
+     * @param c the c
+     * @param ratio the ratio
+     * @param kick the kick
+     * @return the int
+     */
+    public static int retreatExpI(int a, int b, int c, double ratio, int kick) {
+        int r = (int) Math.round(retreatExp(a, b, c, ratio, kick));
+        return r == a ? b : r;
+    }
+
+    /**
+     * Floor.
+     *
+     * @param d the d
+     * @return the int
+     */
+    public static int floor(double d) {
+        return net.minecraft.util.math.MathHelper.floor(d);
+    }
+
+    /**
+     * Floor.
+     *
+     * @param d the d
+     * @return the int
+     */
+    public static int floor(float d) {
+        return net.minecraft.util.math.MathHelper.floor(d);
+    }
+
+    /**
+     * Ceil.
+     *
+     * @param d the d
+     * @return the int
+     */
+    public static int ceil(double d) {
+        return net.minecraft.util.math.MathHelper.ceil(d);
+    }
+
+    /**
+     * Ceil.
+     *
+     * @param d the d
+     * @return the int
+     */
+    public static int ceil(float d) {
+        return net.minecraft.util.math.MathHelper.ceil(d);
+    }
+
+    /**
+     * Sqrt.
+     *
+     * @param f the f
+     * @return the float
+     */
+    public static float sqrt(float f) {
+        return net.minecraft.util.math.MathHelper.sqrt(f);
+    }
+
+    /**
+     * Sqrt.
+     *
+     * @param f the f
+     * @return the float
+     */
+    public static float sqrt(double f) {
+        return net.minecraft.util.math.MathHelper.sqrt(f);
+    }
+
+    /**
+     * Round away.
+     *
+     * @param d the d
+     * @return the int
+     */
+    public static int roundAway(double d) {
+        return (int) (d < 0 ? Math.floor(d) : Math.ceil(d));
+    }
+
+    /**
+     * Compare.
+     *
+     * @param a the a
+     * @param b the b
+     * @return the int
+     */
+    public static int compare(int a, int b) {
+        return a == b ? 0 : a < b ? -1 : 1;
+    }
+
+    /**
+     * Compare.
+     *
+     * @param a the a
+     * @param b the b
+     * @return the int
+     */
+    public static int compare(double a, double b) {
+        return a == b ? 0 : a < b ? -1 : 1;
+    }
+
+    /**
+     * Min.
+     *
+     * @param pos1 the pos 1
+     * @param pos2 the pos 2
+     * @return the block pos
+     */
+    public static BlockPos min(Vec3i pos1, Vec3i pos2) {
+        return new BlockPos(Math.min(pos1.getX(), pos2.getX()), Math.min(pos1.getY(), pos2.getY()), Math.min(pos1.getZ(), pos2.getZ()));
+    }
+
+    /**
+     * Max.
+     *
+     * @param pos1 the pos 1
+     * @param pos2 the pos 2
+     * @return the block pos
+     */
+    public static BlockPos max(Vec3i pos1, Vec3i pos2) {
+        return new BlockPos(Math.max(pos1.getX(), pos2.getX()), Math.max(pos1.getY(), pos2.getY()), Math.max(pos1.getZ(), pos2.getZ()));
+    }
+
+    /**
+     * Abs sum.
+     *
+     * @param pos the pos
+     * @return the int
+     */
+    public static int absSum(BlockPos pos) {
+        return (pos.getX() < 0 ? -pos.getX() : pos.getX()) + (pos.getY() < 0 ? -pos.getY() : pos.getY()) + (pos.getZ() < 0 ? -pos.getZ() : pos.getZ());
+    }
+
+    /**
+     * Checks if is axial.
+     *
+     * @param pos the pos
+     * @return true, if is axial
+     */
+    public static boolean isAxial(BlockPos pos) {
+        return pos.getX() == 0 ? (pos.getY() == 0 || pos.getZ() == 0) : (pos.getY() == 0 && pos.getZ() == 0);
+    }
+
+    /**
+     * To side.
+     *
+     * @param pos the pos
+     * @return the int
+     */
+    public static int toSide(BlockPos pos) {
+        if (!isAxial(pos)) {
+            return -1;
+        }
+        if (pos.getY() < 0) {
+            return 0;
+        }
+        if (pos.getY() > 0) {
+            return 1;
+        }
+        if (pos.getZ() < 0) {
+            return 2;
+        }
+        if (pos.getZ() > 0) {
+            return 3;
+        }
+        if (pos.getX() < 0) {
+            return 4;
+        }
+        if (pos.getX() > 0) {
+            return 5;
+        }
+
+        return -1;
+    }
+}
