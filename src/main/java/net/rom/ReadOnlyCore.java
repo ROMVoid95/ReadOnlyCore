@@ -130,6 +130,6 @@ public class ReadOnlyCore implements IMod{
 	 */
 	@Override
 	public int getBuildNum() {
-		return Ref.BUILD_NUM;
+		return Integer.parseInt(Ref.BUILD_NUM);
 	}
 }

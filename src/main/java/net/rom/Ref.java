@@ -15,12 +15,12 @@ public class Ref {
 	public static final String NAME = "ReadOnly Core";
 	
 	/** The Constant VERSION. */
-	public static final String VERSION = "${version}";
+	public static final String VERSION = "@VERSION@";
 	
 	/** The Constant BUILD_NUM. */
-	public static final int BUILD_NUM = 0;
+	public static final String BUILD_NUM = "@BUILD@";
 	
-	public static final String FINGERPRINT = "1a0493631079de0190679303c225b8b5c0a49ae6";
+	public static final String FINGERPRINT = "@FINGERPRINT@";
 	
 	/** The Constant DEPENDENCIES. */
 	public static final String DEPENDENCIES = "";

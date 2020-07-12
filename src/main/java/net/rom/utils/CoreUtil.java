@@ -97,7 +97,6 @@ public class CoreUtil {
 	 *
 	 * @return The minecraft instance
 	 */
-	@SideOnly(Side.CLIENT)
 	public static Minecraft getMinecraft() {
 		return Minecraft.getMinecraft();
 	}
